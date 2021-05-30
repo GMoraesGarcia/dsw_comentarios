@@ -33,7 +33,7 @@
             <hr />
             <!-- SUBSTITUIR O CÓDIGO html ABAIXO PARA MOSTRAR O FORMULÁRIO E A LISTAGEM DOS COMENTÁRIOS CADASTRADOS -->
             <div class="container jumbotron">
-                <form>
+                <form method="post" th:action="@{/produtos/Salvar-Comentario/{id}(id=${item.id})}">
                     <div class="row ">
                         <div class="col-md-5 form-group">
                             <label>Nome:</label>
@@ -47,10 +47,10 @@
                     </div>
                     <div>
                         <label>Comentário:</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comentario"></textarea>
                     </div>
                     <div>
-                        
+                        <input type="submit" class="btn btn-primary">
                     </div>
                 </form>
 

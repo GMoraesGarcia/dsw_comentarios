@@ -91,4 +91,11 @@ public class Produto {
         this.imagemUrl = imagemUrl;
     }
 
+    @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco + ", imagemUrl=" + imagemUrl + '}';
+    }
+    
+    
+
 }

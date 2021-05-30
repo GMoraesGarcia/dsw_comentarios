@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.senac.tads.dsw.comentarios.comentario;
+package br.senac.tads.dsw.comentarios.produto;
 
 import br.senac.tads.dsw.comentarios.produto.Produto;
 import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,39 +15,49 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author Bigstudios
  */
-
 @Entity
 public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+    private Integer id;
+
+    @NotBlank
+    @Size(min = 1, max = 100)
     @Column
     private String nome;
-    
+
+    @NotBlank
+    @Size(min = 1, max = 100)
     @Column(unique = true)
     private String email;
-    
+
+    @NotBlank
     @Column
     private String comentario;
-    
+
+    @Temporal(TemporalType.TIMESTAMP)
     @Column
-    private LocalDateTime dataHorario;
-   
-   @OneToOne(cascade = CascadeType.ALL)
-   private Produto produto;
+    private Date dataHorario;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Produto produto;
 
     public Comentario() {
     }
 
-    public Comentario(String nome, String email, String comentario, LocalDateTime dataHorario, Produto produto) {
+    public Comentario(String nome, String email, String comentario, Date dataHorario, Produto produto) {
         this.nome = nome;
         this.email = email;
         this.comentario = comentario;
@@ -54,12 +65,11 @@ public class Comentario {
         this.produto = produto;
     }
 
- 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -87,11 +97,11 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public LocalDateTime getDataHorario() {
+    public Date getDataHorario() {
         return dataHorario;
     }
 
-    public void setDataHorario(LocalDateTime dataHorario) {
+    public void setDataHorario(Date dataHorario) {
         this.dataHorario = dataHorario;
     }
 
@@ -99,10 +109,13 @@ public class Comentario {
         return produto;
     }
 
-   public void setProduto(Produto produto) {
+    public void setProduto(Produto produto) {
         this.produto = produto;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Comentario{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", comentario=" + comentario + ", dataHorario=" + dataHorario + ", produto=" + produto + '}';
+    }
+
 }
