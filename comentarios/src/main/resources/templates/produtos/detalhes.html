@@ -53,7 +53,12 @@
                         <input type="submit" class="btn btn-primary">
                     </div>
                 </form>
+                
+                
 
+            </div>
+            <div id="comentarios" th:each="c : ${comentario}">
+                <h3 th:text="${c.nome}"></h3>
             </div>
         </div>
     </body>

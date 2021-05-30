@@ -5,8 +5,10 @@
  */
 package br.senac.tads.dsw.comentarios.produto;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,11 @@ public class ComentarioRepository {
             coment = em.merge(coment);
         }
         return coment;
+    }
+    
+      public List<Comentario> findByProdutoId() {
+        TypedQuery<Comentario> jpqlQuery = 
+                em.createQuery("SELECT c FROM Comentario c", Comentario.class);
+        return jpqlQuery.getResultList();
     }
 }

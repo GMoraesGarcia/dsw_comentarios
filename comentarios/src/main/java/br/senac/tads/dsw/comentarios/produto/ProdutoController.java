@@ -5,6 +5,7 @@
  */
 package br.senac.tads.dsw.comentarios.produto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -43,27 +44,26 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public ModelAndView mostrarDetalhes(@PathVariable("id") Integer id, RedirectAttributes redirAttr) {
         Optional<Produto> optProduto = repository.findById(id);
+        ArrayList<Comentario> comentario = (ArrayList<Comentario>) cRepository.findByProdutoId();
+        System.out.println(comentario.toString());
+      
         if (optProduto.isEmpty()) {
             redirAttr.addFlashAttribute("msgErro", "Produto com ID " + id + " não encontrado.");
             return new ModelAndView("redirect:/produtos");
         }
+        
         return new ModelAndView("produtos/detalhes")
-                .addObject("item", optProduto.get());
+                .addObject("item", optProduto.get()).addObject("comentario",comentario);
     }
     
     @PostMapping("/Salvar-Comentario/{prodid}")
     public ModelAndView recebeComentario(@PathVariable("prodid") Integer id,
        @Valid @ModelAttribute Comentario comentario,
        BindingResult bindingResult){
-        Optional<Produto> optProduto = repository.findById(id);
-        comentario.setProduto(optProduto.get());
         
-        
+       Optional<Produto> optProduto = repository.findById(id);
+       comentario.setProduto(optProduto.get());       
         cRepository.save(comentario);
-        System.out.println(id);
-                
-        System.out.println(comentario.toString());
-        
         return new ModelAndView("redirect:/produtos/"+id+"");
        
     }
