@@ -6,11 +6,14 @@
 package br.senac.tads.dsw.comentarios.produto;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,6 +42,9 @@ public class Produto {
 
     @Column
     private String imagemUrl;
+    
+    @OneToMany(mappedBy = "produto",fetch = FetchType.LAZY)
+    private List<Comentario> comentarios;
 
     public Produto() {
 
@@ -50,6 +56,17 @@ public class Produto {
         this.preco = preco;
         this.imagemUrl = imagemUrl;
     }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+    
+    
+    
 
     public Integer getId() {
         return id;
@@ -90,6 +107,8 @@ public class Produto {
     public void setImagemUrl(String imagemUrl) {
         this.imagemUrl = imagemUrl;
     }
+    
+    
 
     @Override
     public String toString() {
