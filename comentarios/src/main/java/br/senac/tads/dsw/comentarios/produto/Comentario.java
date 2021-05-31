@@ -49,11 +49,12 @@ public class Comentario {
 
     @NotBlank
     @Column
+    @Size (min=5, max = 500)
     private String comentario;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column
-    private Date dataHorario;
+    private LocalDateTime dataHorario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = ("Produto_id"), foreignKey = @ForeignKey (name = "Comentario_produto_fk"))
@@ -62,11 +63,11 @@ public class Comentario {
     public Comentario() {
     }
 
-    public Comentario(String nome, String email, String comentario, Date dataHorario, Produto produto) {
+    public Comentario(String nome, String email, String comentario,  Produto produto) {
         this.nome = nome;
         this.email = email;
         this.comentario = comentario;
-        this.dataHorario = dataHorario;
+        this.dataHorario = LocalDateTime.now();
         this.produto = produto;
     }
 
@@ -102,11 +103,11 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public Date getDataHorario() {
+    public LocalDateTime getDataHorario() {
         return dataHorario;
     }
 
-    public void setDataHorario(Date dataHorario) {
+    public void setDataHorario(LocalDateTime dataHorario) {
         this.dataHorario = dataHorario;
     }
 

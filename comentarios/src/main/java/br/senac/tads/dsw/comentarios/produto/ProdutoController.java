@@ -51,7 +51,7 @@ public class ProdutoController {
             redirAttr.addFlashAttribute("msgErro", "Produto com ID " + id + " não encontrado.");
             return new ModelAndView("redirect:/produtos");
         }
-        
+        comentario.get(0).getProduto().getId();
         return new ModelAndView("produtos/detalhes")
                 .addObject("item", optProduto.get()).addObject("comentario",comentario);
     }
@@ -62,7 +62,7 @@ public class ProdutoController {
        BindingResult bindingResult){
         
        Optional<Produto> optProduto = repository.findById(id);
-       comentario.setProduto(optProduto.get());       
+       comentario.setProduto(optProduto.get()); 
         cRepository.save(comentario);
         return new ModelAndView("redirect:/produtos/"+id+"");
        
