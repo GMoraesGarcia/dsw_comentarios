@@ -54,6 +54,7 @@ public class Comentario {
 
 
     @Column
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataHorario;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,11 +64,11 @@ public class Comentario {
     public Comentario() {
     }
 
-    public Comentario(String nome, String email, String comentario,  Produto produto) {
+    public Comentario(String nome, String email, String comentario,LocalDateTime dataHorario  ,Produto produto) {
         this.nome = nome;
         this.email = email;
         this.comentario = comentario;
-        this.dataHorario = LocalDateTime.now();
+        this.dataHorario = dataHorario ;
         this.produto = produto;
     }
 

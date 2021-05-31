@@ -57,8 +57,12 @@
                 
 
             </div>
-            <div id="comentarios" th:each="c : ${comentario}">
-                <h3 th:text="${c.nome}"></h3>
+            <div class="container" id="comentarios" th:each="c : ${comentario}" >
+                <div class="row" th:if="${item.id == c.produto.id}">
+                    <p style="margin-right: 10px;" th:text="${c.nome}"></p>
+                    <p th:text="${c.email}"></p>
+                    <p th:text="${c.dataHorario}"></p>
+                </div>
             </div>
         </div>
     </body>

@@ -5,6 +5,9 @@
  */
 package br.senac.tads.dsw.comentarios.produto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,13 +48,14 @@ public class ProdutoController {
     public ModelAndView mostrarDetalhes(@PathVariable("id") Integer id, RedirectAttributes redirAttr) {
         Optional<Produto> optProduto = repository.findById(id);
         ArrayList<Comentario> comentario = (ArrayList<Comentario>) cRepository.findByProdutoId();
+       
         System.out.println(comentario.toString());
       
         if (optProduto.isEmpty()) {
             redirAttr.addFlashAttribute("msgErro", "Produto com ID " + id + " não encontrado.");
             return new ModelAndView("redirect:/produtos");
         }
-        comentario.get(0).getProduto().getId();
+       
         return new ModelAndView("produtos/detalhes")
                 .addObject("item", optProduto.get()).addObject("comentario",comentario);
     }
@@ -63,6 +67,7 @@ public class ProdutoController {
         
        Optional<Produto> optProduto = repository.findById(id);
        comentario.setProduto(optProduto.get()); 
+       comentario.setDataHorario(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         cRepository.save(comentario);
         return new ModelAndView("redirect:/produtos/"+id+"");
        
