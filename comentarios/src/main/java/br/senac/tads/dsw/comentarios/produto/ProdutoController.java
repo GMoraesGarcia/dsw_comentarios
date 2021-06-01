@@ -49,7 +49,7 @@ public class ProdutoController {
         Optional<Produto> optProduto = repository.findById(id);
         ArrayList<Comentario> comentario = (ArrayList<Comentario>) cRepository.findByProdutoId();
        
-        System.out.println(comentario.toString());
+       
       
         if (optProduto.isEmpty()) {
             redirAttr.addFlashAttribute("msgErro", "Produto com ID " + id + " não encontrado.");
@@ -57,19 +57,27 @@ public class ProdutoController {
         }
        
         return new ModelAndView("produtos/detalhes")
-                .addObject("item", optProduto.get()).addObject("comentario",comentario);
+                .addObject("item", optProduto.get()).addObject("comentario",comentario).addObject("formC",new Comentario());
     }
     
     @PostMapping("/Salvar-Comentario/{prodid}")
     public ModelAndView recebeComentario(@PathVariable("prodid") Integer id,
-       @Valid @ModelAttribute Comentario comentario,
-       BindingResult bindingResult){
+       @Valid @ModelAttribute("comentario") Comentario comentario,
+       BindingResult bindingResult,
+       RedirectAttributes redirAttr){
+        
+        if(bindingResult.hasErrors()){
+            System.out.println("fdp");
+           return new ModelAndView("redirect:/produtos/"+id+"");
+        }
         
        Optional<Produto> optProduto = repository.findById(id);
        comentario.setProduto(optProduto.get()); 
        comentario.setDataHorario(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         cRepository.save(comentario);
-        return new ModelAndView("redirect:/produtos/"+id+"");
+       ModelAndView mv = new ModelAndView("redirect:/produtos/"+id+"");
+       redirAttr.addFlashAttribute("comentario",comentario);
+       return mv;
        
     }
 

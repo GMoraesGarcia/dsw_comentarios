@@ -33,11 +33,12 @@
             <hr />
             <!-- SUBSTITUIR O CÓDIGO html ABAIXO PARA MOSTRAR O FORMULÁRIO E A LISTAGEM DOS COMENTÁRIOS CADASTRADOS -->
             <div class="container jumbotron">
-                <form method="post" th:action="@{/produtos/Salvar-Comentario/{id}(id=${item.id})}">
+                <form method="post" th:action="@{/produtos/Salvar-Comentario/{id}(id=${item.id})}" th:object="${formC}">
                     <div class="row ">
                         <div class="col-md-5 form-group">
                             <label>Nome:</label>
-                            <input class="form-control " type="text" placeholder="Nome completo" name="nome">
+                            <input class="form-control" type="text" placeholder="Nome completo" name="nome" th:field="*{nome}" > <!-- th:classappend="${#fields.hasErrors('nome')}? is-invalid" -->
+                            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">ERRO</span>
                         </div>
                         <div class="col-md-5 form-group">
                             <label>E-mail:</label>
