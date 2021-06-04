@@ -37,18 +37,20 @@
                     <div class="row ">
                         <div class="col-md-5 form-group">
                             <label>Nome:</label>
-                            <input class="form-control" type="text" placeholder="Nome completo" name="nome" th:field="*{nome}" > <!-- th:classappend="${#fields.hasErrors('nome')}? is-invalid" -->
-                            <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">ERRO</span>
+                            <input class="form-control" type="text" placeholder="Nome completo" name="nome" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')}? is-invalid" > 
+                            <span  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" th:classappend="${#fields.hasErrors('nome')}? invalid-feedback">>ERRO</span>
                         </div>
                         <div class="col-md-5 form-group">
                             <label>E-mail:</label>
-                            <input class="form-control" type="email" placeholder="E-mail Válido" name="email">
+                            <input class="form-control" type="text" placeholder="E-mail Válido" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('nome')}? is-invalid">
+                             <span  th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:classappend="${#fields.hasErrors('nome')}? invalid-feedback">ERRO</span>
                         </div>
                         
                     </div>
                     <div>
                         <label>Comentário:</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comentario"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comentario" th:field="*{comentario}" th:classappend="${#fields.hasErrors('nome')}? is-invalid"></textarea>
+                         <span  th:if="${#fields.hasErrors('comentario')}" th:errors="*{comentario}" th:classappend="${#fields.hasErrors('nome')}? invalid-feedback">ERRO</span>
                     </div>
                     <div>
                         <input type="submit" class="btn btn-primary">
@@ -58,11 +60,14 @@
                 
 
             </div>
-            <div class="container" id="comentarios" th:each="c : ${comentario}" >
+            <div  class="container" id="comentarios" th:each="c : ${comentario}" style="margin-bottom: 25px">
                 <div class="row" th:if="${item.id == c.produto.id}">
                     <p style="margin-right: 10px;" th:text="${c.nome}"></p>
-                    <p th:text="${c.email}"></p>
-                    <p th:text="${c.dataHorario}"></p>
+                    ( <p th:text="${c.email}"></p> ) ---
+                    <p th:text="${#temporals.format(c.dataHorario, 'dd/MM/yyyy -- HH:mm')}"></p> 
+                    <div class="border col-md-12" style="border-bottom: 10px;">
+                        <p th:text="${c.comentario}"></p>
+                    </div>
                 </div>
             </div>
         </div>

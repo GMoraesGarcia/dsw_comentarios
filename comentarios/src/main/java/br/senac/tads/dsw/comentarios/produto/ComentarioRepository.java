@@ -35,7 +35,7 @@ public class ComentarioRepository {
     
       public List<Comentario> findByProdutoId() {
         TypedQuery<Comentario> jpqlQuery = 
-                em.createQuery("SELECT c FROM Comentario c", Comentario.class);
+                em.createQuery("SELECT c FROM Comentario c ORDER BY c.dataHorario DESC", Comentario.class);
         return jpqlQuery.getResultList();
     }
 }

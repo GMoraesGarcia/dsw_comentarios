@@ -57,28 +57,33 @@ public class ProdutoController {
         }
        
         return new ModelAndView("produtos/detalhes")
-                .addObject("item", optProduto.get()).addObject("comentario",comentario).addObject("formC",new Comentario());
+                .addObject("item", optProduto.get())
+                .addObject("comentario",comentario)
+                .addObject("formC",new Comentario());
     }
     
     @PostMapping("/Salvar-Comentario/{prodid}")
     public ModelAndView recebeComentario(@PathVariable("prodid") Integer id,
-       @Valid @ModelAttribute("comentario") Comentario comentario,
+       @Valid @ModelAttribute("formC") Comentario comentario,
        BindingResult bindingResult,
        RedirectAttributes redirAttr){
+          Optional<Produto> optProduto = repository.findById(id);
+          ArrayList<Comentario> coment = (ArrayList<Comentario>) cRepository.findByProdutoId();
         
         if(bindingResult.hasErrors()){
-            System.out.println("fdp");
-           return new ModelAndView("redirect:/produtos/"+id+"");
+           return new ModelAndView("produtos/detalhes")
+                   .addObject("item", optProduto.get())
+                   .addObject("comentario",coment)
+                   ;
         }
         
-       Optional<Produto> optProduto = repository.findById(id);
+      
        comentario.setProduto(optProduto.get()); 
        comentario.setDataHorario(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         cRepository.save(comentario);
-       ModelAndView mv = new ModelAndView("redirect:/produtos/"+id+"");
+       ModelAndView mv = new ModelAndView("redirect:/produtos/"+id+"#comentario");
        redirAttr.addFlashAttribute("comentario",comentario);
        return mv;
        
     }
-
 }

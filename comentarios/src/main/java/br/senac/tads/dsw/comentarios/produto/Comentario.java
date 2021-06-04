@@ -7,6 +7,7 @@ package br.senac.tads.dsw.comentarios.produto;
 
 import br.senac.tads.dsw.comentarios.produto.Produto;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,7 +45,7 @@ public class Comentario {
     private String nome;
 
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Email(message = "E-mail deve ser válido")
     @Column(unique = true)
     private String email;
 
@@ -54,12 +56,19 @@ public class Comentario {
 
 
     @Column
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataHorario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = ("Produto_id"), foreignKey = @ForeignKey (name = "Comentario_produto_fk"))
     private Produto produto;
+    
+    
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    
+    public String dateFormat(LocalDateTime date){
+        return dataHorario.format(DATE_FORMAT);
+            
+    } 
 
     public Comentario() {
     }
