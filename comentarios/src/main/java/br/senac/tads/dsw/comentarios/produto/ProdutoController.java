@@ -73,16 +73,17 @@ public class ProdutoController {
         if(bindingResult.hasErrors()){
            return new ModelAndView("produtos/detalhes")
                    .addObject("item", optProduto.get())
-                   .addObject("comentario",coment)
-                   ;
+                   .addObject("comentario",coment);
         }
-        
-      
+     
        comentario.setProduto(optProduto.get()); 
        comentario.setDataHorario(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         cRepository.save(comentario);
+     
        ModelAndView mv = new ModelAndView("redirect:/produtos/"+id+"#comentario");
-       redirAttr.addFlashAttribute("comentario",comentario);
+       redirAttr.addFlashAttribute("comentario",comentario);      
+        redirAttr.addFlashAttribute("Msgsucesso","c");
+       
        return mv;
        
     }
